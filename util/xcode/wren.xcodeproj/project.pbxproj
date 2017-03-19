@@ -63,6 +63,29 @@
 		29DC14AB1BBA3038008A8274 /* foreign_class.c in Sources */ = {isa = PBXBuildFile; fileRef = 29D009A81B7E39A8000CE58C /* foreign_class.c */; };
 		29DC14AC1BBA303D008A8274 /* slots.c in Sources */ = {isa = PBXBuildFile; fileRef = 29D009AA1B7E39A8000CE58C /* slots.c */; };
 		29DC14AD1BBA3040008A8274 /* handle.c in Sources */ = {isa = PBXBuildFile; fileRef = 29D009AC1B7E39A8000CE58C /* handle.c */; };
+		6501E1931E7E3C3200146E44 /* wren_opt_random.c in Sources */ = {isa = PBXBuildFile; fileRef = 29A427311BDBE435001E6E22 /* wren_opt_random.c */; };
+		6501E1941E7E3C3200146E44 /* wren_compiler.c in Sources */ = {isa = PBXBuildFile; fileRef = 29205C921AB4E6430073018D /* wren_compiler.c */; };
+		6501E1951E7E3C3200146E44 /* wren_primitive.c in Sources */ = {isa = PBXBuildFile; fileRef = 2986F6D51ACF93BA00BCE26C /* wren_primitive.c */; };
+		6501E1961E7E3C3200146E44 /* modules.c in Sources */ = {isa = PBXBuildFile; fileRef = 291647C51BA5EC5E006142EE /* modules.c */; };
+		6501E1971E7E3C3200146E44 /* wren_opt_random.wren.inc in Sources */ = {isa = PBXBuildFile; fileRef = 29A427331BDBE435001E6E22 /* wren_opt_random.wren.inc */; };
+		6501E1981E7E3C3200146E44 /* wren_core.c in Sources */ = {isa = PBXBuildFile; fileRef = 29205C931AB4E6430073018D /* wren_core.c */; };
+		6501E1991E7E3C3200146E44 /* timer.c in Sources */ = {isa = PBXBuildFile; fileRef = 2901D7621B74F4050083A2C8 /* timer.c */; };
+		6501E19A1E7E3C3200146E44 /* io.wren.inc in Sources */ = {isa = PBXBuildFile; fileRef = 29729F301BA70A620099CA20 /* io.wren.inc */; };
+		6501E19B1E7E3C3200146E44 /* vm.c in Sources */ = {isa = PBXBuildFile; fileRef = 29C8A9311AB71FFF00DEC81D /* vm.c */; };
+		6501E19C1E7E3C3200146E44 /* scheduler.c in Sources */ = {isa = PBXBuildFile; fileRef = 291647C21BA5EA45006142EE /* scheduler.c */; };
+		6501E19D1E7E3C3200146E44 /* wren_opt_meta.c in Sources */ = {isa = PBXBuildFile; fileRef = 29A4272E1BDBE435001E6E22 /* wren_opt_meta.c */; };
+		6501E19E1E7E3C3200146E44 /* wren_debug.c in Sources */ = {isa = PBXBuildFile; fileRef = 29205C941AB4E6430073018D /* wren_debug.c */; };
+		6501E19F1E7E3C3200146E44 /* repl.wren.inc in Sources */ = {isa = PBXBuildFile; fileRef = 293B25561CEFD8C7005D9537 /* repl.wren.inc */; };
+		6501E1A01E7E3C3200146E44 /* wren_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 29205C961AB4E6430073018D /* wren_utils.c */; };
+		6501E1A11E7E3C3200146E44 /* os.wren.inc in Sources */ = {isa = PBXBuildFile; fileRef = 29D025E21C19CD1000A3BB28 /* os.wren.inc */; };
+		6501E1A21E7E3C3200146E44 /* os.c in Sources */ = {isa = PBXBuildFile; fileRef = 29D025E01C19CD1000A3BB28 /* os.c */; };
+		6501E1A31E7E3C3200146E44 /* repl.c in Sources */ = {isa = PBXBuildFile; fileRef = 293B25541CEFD8C7005D9537 /* repl.c */; };
+		6501E1A41E7E3C3200146E44 /* io.c in Sources */ = {isa = PBXBuildFile; fileRef = 29729F2E1BA70A620099CA20 /* io.c */; };
+		6501E1A51E7E3C3200146E44 /* wren_opt_meta.wren.inc in Sources */ = {isa = PBXBuildFile; fileRef = 29A427301BDBE435001E6E22 /* wren_opt_meta.wren.inc */; };
+		6501E1A61E7E3C3200146E44 /* wren_value.c in Sources */ = {isa = PBXBuildFile; fileRef = 29205C971AB4E6430073018D /* wren_value.c */; };
+		6501E1A71E7E3C3200146E44 /* wren_vm.c in Sources */ = {isa = PBXBuildFile; fileRef = 29205C981AB4E6430073018D /* wren_vm.c */; };
+		6501E1A81E7E3C3200146E44 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 29205C8E1AB4E5C90073018D /* main.c */; };
+		6501E1AA1E7E3C3200146E44 /* libuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29512C801B91F8EB008C10E6 /* libuv.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -76,6 +99,15 @@
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		29D0099D1B7E397D000CE58C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		6501E1AB1E7E3C3200146E44 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -155,6 +187,7 @@
 		29D880641DC8ECF600025364 /* reset_stack_after_call_abort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = reset_stack_after_call_abort.c; path = ../../test/api/reset_stack_after_call_abort.c; sourceTree = "<group>"; };
 		29D880651DC8ECF600025364 /* reset_stack_after_call_abort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reset_stack_after_call_abort.h; path = ../../test/api/reset_stack_after_call_abort.h; sourceTree = "<group>"; };
 		29F384111BD19706002F84E0 /* io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = io.h; path = ../../src/module/io.h; sourceTree = "<group>"; };
+		6501E1AF1E7E3C3200146E44 /* wren bootstrap */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "wren bootstrap"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +204,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				29512C811B91F8EB008C10E6 /* libuv.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6501E1A91E7E3C3200146E44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6501E1AA1E7E3C3200146E44 /* libuv.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +301,7 @@
 			children = (
 				29AB1F061816E3AD004B501E /* wren */,
 				29512C7F1B91F86E008C10E6 /* api_test */,
+				6501E1AF1E7E3C3200146E44 /* wren bootstrap */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -344,13 +386,30 @@
 			productReference = 29512C7F1B91F86E008C10E6 /* api_test */;
 			productType = "com.apple.product-type.tool";
 		};
+		6501E1911E7E3C3200146E44 /* wren bootstrap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6501E1AC1E7E3C3200146E44 /* Build configuration list for PBXNativeTarget "wren bootstrap" */;
+			buildPhases = (
+				6501E1921E7E3C3200146E44 /* Sources */,
+				6501E1A91E7E3C3200146E44 /* Frameworks */,
+				6501E1AB1E7E3C3200146E44 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "wren bootstrap";
+			productName = wren;
+			productReference = 6501E1AF1E7E3C3200146E44 /* wren bootstrap */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		29AB1EFE1816E3AD004B501E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Bob Nystrom";
 				TargetAttributes = {
 					29D0099E1B7E397D000CE58C = {
@@ -372,6 +431,7 @@
 			targets = (
 				29AB1F051816E3AD004B501E /* wren */,
 				29D0099E1B7E397D000CE58C /* api_test */,
+				6501E1911E7E3C3200146E44 /* wren bootstrap */,
 			);
 		};
 /* End PBXProject section */
@@ -445,6 +505,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6501E1921E7E3C3200146E44 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6501E1931E7E3C3200146E44 /* wren_opt_random.c in Sources */,
+				6501E1941E7E3C3200146E44 /* wren_compiler.c in Sources */,
+				6501E1951E7E3C3200146E44 /* wren_primitive.c in Sources */,
+				6501E1961E7E3C3200146E44 /* modules.c in Sources */,
+				6501E1971E7E3C3200146E44 /* wren_opt_random.wren.inc in Sources */,
+				6501E1981E7E3C3200146E44 /* wren_core.c in Sources */,
+				6501E1991E7E3C3200146E44 /* timer.c in Sources */,
+				6501E19A1E7E3C3200146E44 /* io.wren.inc in Sources */,
+				6501E19B1E7E3C3200146E44 /* vm.c in Sources */,
+				6501E19C1E7E3C3200146E44 /* scheduler.c in Sources */,
+				6501E19D1E7E3C3200146E44 /* wren_opt_meta.c in Sources */,
+				6501E19E1E7E3C3200146E44 /* wren_debug.c in Sources */,
+				6501E19F1E7E3C3200146E44 /* repl.wren.inc in Sources */,
+				6501E1A01E7E3C3200146E44 /* wren_utils.c in Sources */,
+				6501E1A11E7E3C3200146E44 /* os.wren.inc in Sources */,
+				6501E1A21E7E3C3200146E44 /* os.c in Sources */,
+				6501E1A31E7E3C3200146E44 /* repl.c in Sources */,
+				6501E1A41E7E3C3200146E44 /* io.c in Sources */,
+				6501E1A51E7E3C3200146E44 /* wren_opt_meta.wren.inc in Sources */,
+				6501E1A61E7E3C3200146E44 /* wren_value.c in Sources */,
+				6501E1A71E7E3C3200146E44 /* wren_vm.c in Sources */,
+				6501E1A81E7E3C3200146E44 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -460,13 +549,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -499,14 +594,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -590,6 +690,38 @@
 			};
 			name = Release;
 		};
+		6501E1AD1E7E3C3200146E44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					BOOTSTRAP,
+				);
+				GCC_WARN_PEDANTIC = NO;
+				LIBRARY_SEARCH_PATHS = ../../build;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "../../deps/libuv/include ../../src/module";
+			};
+			name = Debug;
+		};
+		6501E1AE1E7E3C3200146E44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_PREPROCESSOR_DEFINITIONS = BOOTSTRAP;
+				GCC_WARN_PEDANTIC = NO;
+				LIBRARY_SEARCH_PATHS = ../../build;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "../../deps/libuv/include ../../src/module";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -616,6 +748,15 @@
 			buildConfigurations = (
 				29D009A41B7E397D000CE58C /* Debug */,
 				29D009A51B7E397D000CE58C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6501E1AC1E7E3C3200146E44 /* Build configuration list for PBXNativeTarget "wren bootstrap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6501E1AD1E7E3C3200146E44 /* Debug */,
+				6501E1AE1E7E3C3200146E44 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

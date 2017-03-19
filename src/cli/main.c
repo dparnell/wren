@@ -7,6 +7,9 @@
 
 int main(int argc, const char* argv[])
 {
+#ifdef BOOTSTRAP
+    return bootstrapWren();
+#else
   if (argc == 2 && strcmp(argv[1], "--help") == 0)
   {
     printf("Usage: wren [file] [arguments...]\n");
@@ -32,4 +35,5 @@ int main(int argc, const char* argv[])
   }
 
   return 0;
+#endif
 }

@@ -12,6 +12,10 @@ void runFile(const char* path);
 // Runs the Wren interactive REPL.
 int runRepl();
 
+#ifdef BOOTSTRAP
+int bootstrapWren();
+#endif
+
 // Gets the currently running VM.
 WrenVM* getVM();
 

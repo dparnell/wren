@@ -10,7 +10,11 @@
 #include "wren_primitive.h"
 #include "wren_value.h"
 
+#ifdef BOOTSTRAP
 #include "wren_core.wren.inc"
+#else
+#include "wren_core_bytcode.h"
+#endif
 
 DEF_PRIMITIVE(bool_not)
 {
@@ -1195,8 +1199,14 @@ void wrenInitializeCore(WrenVM* vm)
   //   '---------'   '-------------------'            -'
 
   // The rest of the classes can now be defined normally.
-  wrenInterpretInModule(vm, NULL, coreModuleSource);
-
+#ifdef BOOTSTRAP
+  wrenBootstrapInModule(vm, NULL, coreModuleSource, "src/vm/wren_core_bytcode.h", "core");
+#else
+  // TODO: add code to load in the pre-compiled core module
+    fixup_core_values();
+    wrenWakeModule(vm, NULL, &core_value_0);
+#endif
+    
   vm->boolClass = AS_CLASS(wrenFindVariable(vm, coreModule, "Bool"));
   PRIMITIVE(vm->boolClass, "toString", bool_toString);
   PRIMITIVE(vm->boolClass, "!", bool_not);

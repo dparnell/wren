@@ -463,6 +463,189 @@ static ObjModule* getModule(WrenVM* vm, Value name)
   return !IS_UNDEFINED(moduleValue) ? AS_MODULE(moduleValue) : NULL;
 }
 
+#ifdef BOOTSTRAP
+
+static void dumpObjFn(FILE* out, const char *module_name,  ObjFn *fn, Value fnValue) {
+    for(int i=0; i<fn->constants.count; i++) {
+        Value v = fn->constants.data[i];
+        // Traverse the object's fields.
+        if(IS_STRING(v)) {
+            ObjString *s = AS_STRING(v);
+            
+            fprintf(out, "static ObjString %s_value_%llx = { {OBJ_STRING, 0, NULL, NULL}, %d, %d, \"", module_name, (uint64_t)v, s->length, s->hash);
+            for(int j=0; j<s->length; j++) {
+                unsigned char ch = s->value[j];
+                if(ch == '%') {
+                    fprintf(out, "%%");
+                } else if(ch == '\n') {
+                    fprintf(out, "\\n");
+                } else if(ch == '\t') {
+                    fprintf(out, "\\t");
+                } else if(ch < 32) {
+                    fprintf(out, "\\x%.2x", ch);
+                } else {
+                    fputc(ch, out);
+                }
+            }
+            fprintf(out, "\"};\n");
+        } else if(IS_NUM(v)) {
+            // do nothing
+        } else if(IS_FN(v)){
+            ObjFn *fnx = AS_FN(v);
+            dumpObjFn(out, module_name, fnx, v);
+        } else {
+            printf("UNABLE TO BOOTSTRAP!\n");
+            wrenDumpValue(v);
+            exit(-1);
+        }
+    }
+    // TODO: check if any value is not representable at compile time, and if so put in "const"
+    fprintf(out, "static Value %s_values_%llx[] = {", module_name, (uint64_t)fnValue);
+    for(int i=0; i<fn->constants.count; i++) {
+        Value v = fn->constants.data[i];
+        if(i > 0) {
+            fprintf(out, ",");
+        }
+        fprintf(out, "\n");
+        if(IS_NUM(v)) {
+            fprintf(out, "\(Value)(0x%llx) /* %f */", v, AS_NUM(v));
+        } else {
+            fprintf(out, "\tUNDEFINED_VAL /* OBJ_VAL(&%s_value_%llx) */", module_name, (uint64_t)v);
+        }
+    }
+    if(fn->constants.count > 0) {
+        fprintf(out, "\n");
+    }
+    fprintf(out, "};\n");
+    
+    fprintf(out, "static uint8_t %s_bytecode_%llx[] = {", module_name, (uint64_t)fnValue);
+    for(int i=0; i<fn->code.count; i++) {
+        if(i == 0) {
+            fprintf(out, "0x%02x", fn->code.data[i]);
+        } else {
+            fprintf(out, ",0x%02x", fn->code.data[i]);
+        }
+    }
+    fprintf(out, "};\n");
+    
+    fprintf(out, "static ObjFn %s_value_%llx = { { OBJ_FN, 0, NULL, NULL}, {(uint8_t*)&%s_bytecode_%llx[0], %d, %d}, {(Value*)&%s_values_%llx[0], %d, %d}, NULL, %d, %d, %d, NULL };\n", module_name, (uint64_t)fnValue, module_name, fnValue, fn->code.count, fn->code.count, module_name, fnValue, fn->constants.count, fn->constants.count, fn->maxSlots, fn->numUpvalues, fn->arity );
+    fprintf(out, "\n");
+    
+}
+
+static void bootstrapFixupValues(FILE* out, const char *module_name,  ObjFn *fn, Value fnValue) {
+    for(int i=0; i<fn->constants.count; i++) {
+        Value v = fn->constants.data[i];
+        if(IS_NUM(v)) {
+            // do nothing
+        } else {
+            if(IS_FN(v)) {
+                ObjFn *fnx = AS_FN(v);
+                bootstrapFixupValues(out, module_name, fnx, v);
+            }
+            
+            fprintf(out, "\t%s_values_%llx[%d] = OBJ_VAL(&%s_value_%llx);\n", module_name, (uint64_t)fnValue, i, module_name, (uint64_t)v);
+        }
+    }
+}
+
+static ObjFiber* bootstrapModule(WrenVM* vm, Value name, const char* source, const char* output, const char* module_name) {
+    // See if the module has already been loaded.
+
+    ObjModule* module = getModule(vm, name);
+    if (module == NULL)
+    {
+        module = wrenNewModule(vm, AS_STRING(name));
+        
+        // Store it in the VM's module registry so we don't load the same module
+        // multiple times.
+        wrenMapSet(vm, vm->modules, name, OBJ_VAL(module));
+        
+        // Implicitly import the core module.
+        ObjModule* coreModule = getModule(vm, NULL_VAL);
+        for (int i = 0; i < coreModule->variables.count; i++)
+        {
+            wrenDefineVariable(vm, module,
+                               coreModule->variableNames.data[i].buffer,
+                               coreModule->variableNames.data[i].length,
+                               coreModule->variables.data[i]);
+        }
+    }
+    
+    ObjFn* fn = wrenCompile(vm, module, source, false, true);
+    if (fn == NULL)
+    {
+        // TODO: Should we still store the module even if it didn't compile?
+        return NULL;
+    }
+    
+    
+    FILE *out = fopen(output, "w");
+    fprintf(out, "// bootstrap structure for module %s - generated automatically. DO NOT EDIT!\n", module_name);
+    dumpObjFn(out, module_name, fn, 0);
+    
+    fprintf(out, "\n");
+    fprintf(out, "static void fixup_%s_values() {\n", module_name);
+    bootstrapFixupValues(out, module_name, fn, 0);
+    fprintf(out, "}\n");
+    
+    fclose(out);
+    wrenPushRoot(vm, (Obj*)fn);
+    
+    // TODO: Doc.
+    ObjClosure* closure = wrenNewClosure(vm, fn);
+    wrenPushRoot(vm, (Obj*)closure);
+    
+    ObjFiber* moduleFiber = wrenNewFiber(vm, closure);
+    
+    wrenPopRoot(vm); // closure.
+    wrenPopRoot(vm); // fn.
+    
+    // Return the fiber that executes the module.
+    return moduleFiber;
+}
+#endif
+
+static ObjFiber* wakeModule(WrenVM* vm, Value name, ObjFn* fn)
+{
+    // See if the module has already been loaded.
+    ObjModule* module = getModule(vm, name);
+    if (module == NULL)
+    {
+        module = wrenNewModule(vm, AS_STRING(name));
+        
+        // Store it in the VM's module registry so we don't load the same module
+        // multiple times.
+        wrenMapSet(vm, vm->modules, name, OBJ_VAL(module));
+        
+        // Implicitly import the core module.
+        ObjModule* coreModule = getModule(vm, NULL_VAL);
+        for (int i = 0; i < coreModule->variables.count; i++)
+        {
+            wrenDefineVariable(vm, module,
+                               coreModule->variableNames.data[i].buffer,
+                               coreModule->variableNames.data[i].length,
+                               coreModule->variables.data[i]);
+        }
+    }
+    fn->module = module;
+    
+    wrenPushRoot(vm, (Obj*)fn);
+    
+    // TODO: Doc.
+    ObjClosure* closure = wrenNewClosure(vm, fn);
+    wrenPushRoot(vm, (Obj*)closure);
+    
+    ObjFiber* moduleFiber = wrenNewFiber(vm, closure);
+    
+    wrenPopRoot(vm); // closure.
+    wrenPopRoot(vm); // fn.
+    
+    // Return the fiber that executes the module.
+    return moduleFiber;
+}
+
+
 static ObjFiber* loadModule(WrenVM* vm, Value name, const char* source)
 {
   // See if the module has already been loaded.
@@ -1313,6 +1496,61 @@ WrenInterpretResult wrenInterpret(WrenVM* vm, const char* source)
 {
   return wrenInterpretInModule(vm, "main", source);
 }
+
+#ifdef BOOTSTRAP
+WrenInterpretResult wrenBootstrapInModule(WrenVM* vm, const char* module,
+                                               const char* source,
+                                               const char* outputFileName,
+                                               const char* name)
+{
+    Value nameValue = NULL_VAL;
+    if (module != NULL)
+    {
+        nameValue = wrenStringFormat(vm, "$", module);
+        wrenPushRoot(vm, AS_OBJ(nameValue));
+    }
+    
+    ObjFiber* fiber = bootstrapModule(vm, nameValue, source, outputFileName, name);
+    
+    if (fiber == NULL)
+    {
+        wrenPopRoot(vm);
+        return WREN_RESULT_COMPILE_ERROR;
+    }
+    
+    if (module != NULL)
+    {
+        wrenPopRoot(vm); // nameValue.
+    }
+    
+    return runInterpreter(vm, fiber);
+}
+#endif
+
+WrenInterpretResult wrenWakeModule(WrenVM* vm, const char* module, ObjFn *fn)
+{
+    Value nameValue = NULL_VAL;
+    if (module != NULL)
+    {
+        nameValue = wrenStringFormat(vm, "$", module);
+        wrenPushRoot(vm, AS_OBJ(nameValue));
+    }
+    
+    ObjFiber* fiber = wakeModule(vm, nameValue, fn);
+    if (fiber == NULL)
+    {
+        wrenPopRoot(vm);
+        return WREN_RESULT_COMPILE_ERROR;
+    }
+    
+    if (module != NULL)
+    {
+        wrenPopRoot(vm); // nameValue.
+    }
+    
+    return runInterpreter(vm, fiber);
+}
+
 
 WrenInterpretResult wrenInterpretInModule(WrenVM* vm, const char* module,
                                           const char* source)

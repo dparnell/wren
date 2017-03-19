@@ -266,6 +266,22 @@ int runRepl()
   return 0;
 }
 
+#ifdef BOOTSTRAP
+int bootstrapWren() {
+    initVM();
+    
+    printf("\\\\/\"-\n");
+    printf(" \\_/   wren v%s\n", WREN_VERSION_STRING);
+    
+    wrenInterpret(vm, "System.print(\"Wren bootstrapped\")");
+    
+    uv_run(loop, UV_RUN_DEFAULT);
+    
+    freeVM();
+    return 0;
+}
+#endif
+
 WrenVM* getVM()
 {
   return vm;

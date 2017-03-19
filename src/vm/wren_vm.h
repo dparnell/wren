@@ -135,6 +135,16 @@ WrenHandle* wrenMakeHandle(WrenVM* vm, Value value);
 WrenInterpretResult wrenInterpretInModule(WrenVM* vm, const char* module,
                                           const char* source);
 
+WrenInterpretResult wrenWakeModule(WrenVM* vm, const char* module, ObjFn *fn);
+
+#ifdef BOOTSTRAP
+// Executes [source] in the context of [module].
+WrenInterpretResult wrenBootstrapInModule(WrenVM* vm, const char* module,
+                                          const char* source,
+                                          const char* outputFileName,
+                                          const char* name);
+#endif
+
 // Imports the module with [name], a string.
 //
 // If the module has already been imported (or is already in the middle of
