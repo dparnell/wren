@@ -12,9 +12,9 @@
 // Otherwise, the call resumes immediately. Releases [fiber] when called.
 void schedulerResume(WrenHandle* fiber, bool hasArgument);
 
-void schedulerFinishResume();
+void schedulerFinishResume(void);
 void schedulerResumeError(WrenHandle* fiber, const char* error);
 
-void schedulerShutdown();
+void schedulerShutdown(void);
 
 #endif

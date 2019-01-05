@@ -472,7 +472,7 @@ static void dumpObjFn(FILE* out, const char *module_name,  ObjFn *fn, Value fnVa
         if(IS_STRING(v)) {
             ObjString *s = AS_STRING(v);
             
-            fprintf(out, "static ObjString %s_value_%llx = { {OBJ_STRING, 0, NULL, NULL}, %d, %d, \"", module_name, (uint64_t)v, s->length, s->hash);
+            fprintf(out, "static ObjString %s_value_%llx = { {OBJ_STRING, 0, NULL, NULL}, %d, %d, {\"", module_name, (uint64_t)v, s->length, s->hash);
             for(int j=0; j<s->length; j++) {
                 unsigned char ch = s->value[j];
                 if(ch == '%') {
@@ -487,7 +487,7 @@ static void dumpObjFn(FILE* out, const char *module_name,  ObjFn *fn, Value fnVa
                     fputc(ch, out);
                 }
             }
-            fprintf(out, "\"};\n");
+            fprintf(out, "\"}};\n");
         } else if(IS_NUM(v)) {
             // do nothing
         } else if(IS_FN(v)){

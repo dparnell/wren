@@ -10,17 +10,17 @@
 void runFile(const char* path);
 
 // Runs the Wren interactive REPL.
-int runRepl();
+int runRepl(void);
 
 #ifdef BOOTSTRAP
-int bootstrapWren();
+int bootstrapWren(void);
 #endif
 
 // Gets the currently running VM.
-WrenVM* getVM();
+WrenVM* getVM(void);
 
 // Gets the event loop the VM is using.
-uv_loop_t* getLoop();
+uv_loop_t* getLoop(void);
 
 // Set the exit code the CLI should exit with when done.
 void setExitCode(int exitCode);
